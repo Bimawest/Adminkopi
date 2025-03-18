@@ -9,6 +9,7 @@
     <link href="https://cdn.tailwindcss.com" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <style>
+        /* Style untuk bagian jumlah produk */
         .jumblah {
             margin-top: 2rem;
         }
@@ -43,6 +44,7 @@
             cursor: pointer;
         }
 
+        /* Style untuk pop-up deskripsi produk */
         .description {
             position: fixed;
             top: 50%;
@@ -73,9 +75,10 @@
             border-radius: 5px;
         }
 
+        /* Style untuk item produk */
         .product-item {
-            background-image: url("img/kopi.jpg");
-            padding: 0.5rem;
+            background-color: white;
+            padding: 1rem;
             border-radius: 0.5rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             text-align: center;
@@ -84,10 +87,9 @@
 
         .product-item img {
             width: 100%;
-            height: auto;
+            height: 150px;
             object-fit: cover;
             margin-bottom: 1rem;
-            padding: 0.5rem 1rem;
             border-radius: 15%;
         }
 
@@ -97,6 +99,7 @@
             background-color: black;
             color: white;
             border-radius: 9999px;
+            padding: 0.5rem;
         }
 
         .product-item .price {
@@ -105,6 +108,7 @@
             background-color: black;
             color: white;
             border-radius: 9999px;
+            padding: 0.5rem;
         }
 
         .product-item button {
@@ -124,6 +128,7 @@
             box-shadow: 0 15px 20px rgba(0, 0, 0, 0.1);
         }
 
+        /* Style untuk tombol hapus */
         .delete-btn {
             background-color: red;
             color: white;
