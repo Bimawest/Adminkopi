@@ -9,73 +9,7 @@
     <link href="https://cdn.tailwindcss.com" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <style>
-        /* Style untuk bagian jumlah produk */
-        .jumblah {
-            margin-top: 2rem;
-        }
-
-        .jumblah button.minus,
-        .jumblah button.plus {
-            background-color: black;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 12px;
-            padding: 0;
-            cursor: pointer;
-        }
-
-        .jumblah input.quantity {
-            width: 40px;
-            text-align: center;
-            border: 1px solid black;
-            border-radius: 5px;
-            padding: 2px;
-            font-size: 12px;
-        }
-
-        .cart {
-            margin-left: 1rem;
-            padding: 0.5rem;
-            border: 1px solid black;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        /* Style untuk pop-up deskripsi produk */
-        .description {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 999;
-            width: 50%;
-            height: auto;
-            background-color: white;
-            text-align: center;
-            font-weight: bold;
-            border: 1px black solid;
-            border-radius: 15px;
-            padding: 0.5rem;
-            display: none;
-        }
-
-        .description img {
-            border-radius: 20px;
-        }
-
-        .description button {
-            color: white;
-            background-color: black;
-            width: 20%;
-            height: 50%;
-            margin-bottom: 10px;
-            border-radius: 5px;
-        }
-
-        /* Style untuk item produk */
+        /* Style untuk product-item */
         .product-item {
             background-color: white;
             padding: 1rem;
@@ -83,6 +17,12 @@
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             text-align: center;
             margin-bottom: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 20px rgba(0, 0, 0, 0.1);
         }
 
         .product-item img {
@@ -117,15 +57,6 @@
             padding: 0.5rem 1rem;
             border-radius: 9999px;
             cursor: pointer;
-        }
-
-        .product-item {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .product-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 20px rgba(0, 0, 0, 0.1);
         }
 
         /* Style untuk tombol hapus */
@@ -173,14 +104,6 @@
                     <h3>${product.name}</h3>
                     <p class="price">Rp${product.price}</p>
                     <button class="add-to-cart" onclick="showDescription('${product.name}', '${product.image}')">Detail</button>
-                    <div class="jumblah">
-                        <button class="minus">-</button>
-                        <input type="text" value="0" class="quantity">
-                        <button class="plus">+</button>
-                        <button class="cart" data-img="${product.image}" data-name="${product.name}">
-                            <i class="fas fa-shopping-cart"></i>
-                        </button>
-                    </div>
                     <button class="delete-btn" onclick="deleteProduct(${index})">Hapus</button>
                 `;
                 productList.appendChild(productDiv);
