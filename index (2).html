@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Halaman Utama Coffee Shop" />
+    <title>Coffee Shop</title>
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <style>
+        /* Style untuk item produk */
+        .product-item {
+            background-image: url("kopi.jpg");
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Efek hover untuk item produk */
+        .product-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Style untuk gambar di dalam item produk */
+        .product-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        /* Style untuk judul produk */
+        .product-item h3 {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            background-color: black;
+            color: white;
+            border-radius: 9999px;
+            padding: 0.5rem 1rem;
+            font-size: 1.125rem;
+        }
+
+        /* Style untuk harga produk */
+        .product-item .price {
+            font-weight: bold;
+            margin-bottom: 1rem;
+            background-color: black;
+            color: white;
+            border-radius: 9999px;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+        }
+
+        /* Style untuk tombol di dalam item produk */
+        .product-item button {
+            background-color: black;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Efek hover untuk tombol di dalam item produk */
+        .product-item button:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h1 class="text-2xl font-bold mb-4">Menu Coffee Shop</h1>
+        <div id="productList" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+    </div>
+
+    <script>
+        // Fungsi untuk menampilkan produk di halaman utama
+        function displayProducts() {
+            const productList = document.getElementById('productList');
+            productList.innerHTML = '';
+
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            products.forEach((product) => {
+                const productDiv = document.createElement('div');
+                productDiv.className = 'product-item';
+                productDiv.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" />
+                    <h3>${product.name}</h3>
+                    <p class="price">Rp${product.price}</p>
+                `;
+                productList.appendChild(productDiv);
+            });
+        }
+
+        // Menampilkan produk saat halaman dimuat
+        displayProducts();
+    </script>
+</body>
+
+  </html>
