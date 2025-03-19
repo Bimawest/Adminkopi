@@ -9,10 +9,12 @@
     <link href="https://cdn.tailwindcss.com" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <style>
+        /* Style untuk container jumlah */
         .jumblah {
             margin-top: 2rem;
         }
 
+        /* Style untuk tombol minus dan plus */
         .jumblah button.minus,
         .jumblah button.plus {
             background-color: black;
@@ -26,6 +28,7 @@
             cursor: pointer;
         }
 
+        /* Style untuk input quantity */
         .jumblah input.quantity {
             width: 40px;
             text-align: center;
@@ -35,6 +38,7 @@
             font-size: 12px;
         }
 
+        /* Style untuk tombol keranjang */
         .cart {
             margin-left: 1rem;
             padding: 0.5rem;
@@ -43,6 +47,25 @@
             cursor: pointer;
         }
 
+        /* Gaya untuk tombol keranjang yang dinonaktifkan */
+        .cart:disabled {
+            background-color: #cccccc;
+            color: #666666;
+            cursor: not-allowed;
+            opacity: 0.7;
+            border: 1px solid #999999;
+        }
+
+        /* Gaya untuk tombol keranjang yang aktif */
+        .cart:not(:disabled) {
+            background-color: black;
+            color: white;
+            cursor: pointer;
+            opacity: 1;
+            border: 1px solid black;
+        }
+
+        /* Style untuk popup deskripsi produk */
         .description {
             position: fixed;
             top: 50%;
@@ -60,10 +83,12 @@
             display: none;
         }
 
+        /* Style untuk gambar di dalam popup deskripsi */
         .description img {
             border-radius: 20px;
         }
 
+        /* Style untuk tombol di dalam popup deskripsi */
         .description button {
             color: white;
             background-color: black;
@@ -73,55 +98,86 @@
             border-radius: 5px;
         }
 
+        /* Style untuk item produk */
         .product-item {
-            background-image: url("img/kopi.jpg");
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e5e7eb;
         }
 
+        /* Efek hover untuk item produk */
+        .product-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Style untuk gambar di dalam item produk */
         .product-item img {
             width: 100%;
-            height: auto;
+            height: 150px;
             object-fit: cover;
             margin-bottom: 1rem;
-            padding: 0.5rem 1rem;
-            border-radius: 15%;
+            border-radius: 0.5rem;
         }
 
+        /* Style untuk judul produk */
         .product-item h3 {
             font-weight: bold;
             margin-bottom: 0.5rem;
             background-color: black;
             color: white;
             border-radius: 9999px;
+            padding: 0.5rem 1rem;
+            font-size: 1.125rem;
         }
 
+        /* Style untuk harga produk */
         .product-item .price {
             font-weight: bold;
             margin-bottom: 1rem;
-            background-color black;
+            background-color: black;
             color: white;
             border-radius: 9999px;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
         }
 
+        /* Style untuk tombol di dalam item produk */
         .product-item button {
             background-color: black;
             color: white;
             padding: 0.5rem 1rem;
             border-radius: 9999px;
             cursor: pointer;
+            font-size: 0.875rem;
+            transition: background-color 0.3s ease;
         }
 
-        .product-item {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        /* Efek hover untuk tombol di dalam item produk */
+        .product-item button:hover {
+            background-color: #333;
         }
 
-        .product-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 20px rgba(0, 0, 0, 0.1);
+        /* Style untuk tombol hapus */
+        .delete-btn {
+            background-color: #ef4444;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Efek hover untuk tombol hapus */
+        .delete-btn:hover {
+            background-color: #dc2626;
         }
     </style>
 </head>
@@ -145,80 +201,108 @@
     </div>
 
     <script>
-        // Fungsi untuk menampilkan produk
-        function displayProducts() {
-            const productList = document.getElementById('productList');
-            productList.innerHTML = '';
+      // Fungsi untuk menampilkan produk
+function displayProducts() {
+    const productList = document.getElementById('productList');
+    productList.innerHTML = '';
 
-            const products = JSON.parse(localStorage.getItem('menuItems')) || [];
-            products.forEach((product, index) => {
-                const productDiv = document.createElement('div');
-                productDiv.className = 'product-item';
-                productDiv.innerHTML = `
-                    <img src="${product.image}" alt="${product.name}" />
-                    <h3>${product.name}</h3>
-                    <p class="price">Rp${product.price}</p>
-                    <button class="add-to-cart" onclick="showDescription('${product.name}', '${product.image}')">Detail</button>
-                    <div class="jumblah">
-                        <button class="minus">-</button>
-                        <input type="text" value="0" class="quantity">
-                        <button class="plus">+</button>
-                        <button class="cart" data-img="${product.image}" data-name="${product.name}">
-                            <i class="fas fa-shopping-cart"></i>
-                        </button>
-                    </div>
-                `;
-                productList.appendChild(productDiv);
-            });
-        }
+    const products = JSON.parse(localStorage.getItem('menuItems')) || [];
+    products.forEach((product, index) => {
+        const productDiv = document.createElement('div');
+        productDiv.className = 'product-item';
+        productDiv.innerHTML = `
+            <img src="${product.image}" alt="${product.name}" />
+            <h3>${product.name}</h3>
+            <p class="price">Rp${product.price}</p>
+            <button class="add-to-cart" onclick="showDescription('${product.name}', '${product.image}')">Detail</button>
+            <div class="jumblah">
+                <button class="minus" onclick="changeQuantity(${index}, -1)">-</button>
+                <input type="text" value="0" class="quantity" id="quantity-${index}" readonly>
+                <button class="plus" onclick="changeQuantity(${index}, 1)">+</button>
+                <button class="cart" data-img="${product.image}" data-name="${product.name}" onclick="addToCart('${product.name}', '${product.image}')">
+                    <i class="fas fa-shopping-cart"></i>
+                </button>
+            </div>
+            <button class="delete-btn" onclick="deleteProduct(${index})">Hapus</button>
+        `;
+        productList.appendChild(productDiv);
+    });
+}
 
-        // Fungsi untuk menambah produk baru
-        document.getElementById('addProductForm').addEventListener('submit', function (e) {
-            e.preventDefault();
+// Fungsi untuk menambah produk baru
+document.getElementById('addProductForm').addEventListener('submit', function (e) {
+    e.preventDefault();
 
-            const name = document.getElementById('productName').value;
-            const price = document.getElementById('productPrice').value;
-            const imageFile = document.getElementById('productImage').files[0];
+    const name = document.getElementById('productName').value;
+    const price = document.getElementById('productPrice').value;
+    const imageFile = document.getElementById('productImage').files[0];
 
-            const reader = new FileReader();
-            reader.onloadend = function () {
-                const products = JSON.parse(localStorage.getItem('menuItems')) || [];
-                products.push({ name, price, image: reader.result });
-                localStorage.setItem('menuItems', JSON.stringify(products));
+    const reader = new FileReader();
+    reader.onloadend = function () {
+        const products = JSON.parse(localStorage.getItem('menuItems')) || [];
+        products.push({ name, price, image: reader.result });
+        localStorage.setItem('menuItems', JSON.stringify(products));
 
-                // Mengosongkan form
-                document.getElementById('addProductForm').reset();
-                displayProducts();
-            };
+        // Mengosongkan form
+        document.getElementById('addProductForm').reset();
+        displayProducts();
+    };
 
-            if (imageFile) {
-                reader.readAsDataURL(imageFile); // Membaca file gambar sebagai URL data
-            }
-        });
+    if (imageFile) {
+        reader.readAsDataURL(imageFile); // Membaca file gambar sebagai URL data
+    }
+});
 
-        // Fungsi untuk menampilkan deskripsi produk
-        function showDescription(name, image) {
-            const descriptionDiv = document.createElement('div');
-            descriptionDiv.className = 'description';
-            descriptionDiv.innerHTML = `
-                <img src="${image}" alt="${name}" />
-                <h3>${name}</h3>
-                <p>(penjelasan product)</p>
-                <button class="btndes" onclick="this.parentElement.style.display='none'">O K</button>
-            `;
-            document.body.appendChild(descriptionDiv);
-            descriptionDiv.style.display = 'block';
-        }
+// Fungsi untuk menampilkan deskripsi produk
+function showDescription(name, image) {
+    const descriptionDiv = document.createElement('div');
+    descriptionDiv.className = 'description';
+    descriptionDiv.innerHTML = `
+        <img src="${image}" alt="${name}" />
+        <h3>${name}</h3>
+        <p>(penjelasan produk)</p>
+        <button class="btndes" onclick="this.parentElement.style.display='none'">O K</button>
+    `;
+    document.body.appendChild(descriptionDiv);
+    descriptionDiv.style.display = 'block';
+}
 
-        // Fungsi untuk menghapus produk
-        function deleteProduct(index) {
-            const products = JSON.parse(localStorage.getItem('menuItems')) || [];
-            products.splice(index, 1);
-            localStorage.setItem('menuItems', JSON.stringify(products));
-            displayProducts();
-        }
+// Fungsi untuk menghapus produk
+function deleteProduct(index) {
+    const products = JSON.parse(localStorage.getItem('menuItems')) || [];
+    products.splice(index, 1);
+    localStorage.setItem('menuItems', JSON.stringify(products));
+    displayProducts();
+}
 
-        // Menampilkan produk saat halaman dimuat
+// Fungsi untuk mengubah jumlah produk
+function changeQuantity(index, change) {
+    const quantityInput = document.getElementById(`quantity-${index}`);
+    let currentQuantity = parseInt(quantityInput.value);
+    currentQuantity += change;
+
+    // Pastikan jumlah tidak negatif
+    if (currentQuantity < 0) {
+        currentQuantity = 0;
+    }
+
+    quantityInput.value = currentQuantity;
+}
+
+// Fungsi untuk menambahkan produk ke keranjang
+function addToCart(name, image) {
+    const quantityInput = document.querySelector(`input[id^="quantity-"]`);
+    const quantity = parseInt(quantityInput.value);
+
+    if (quantity > 0) {
+        // Logika untuk menambahkan produk ke keranjang
+        alert(`Menambahkan ${quantity} ${name} ke keranjang.`);
+        // Anda bisa menambahkan logika untuk menyimpan ke keranjang di localStorage atau state aplikasi
+    } else {
+        alert('Silakan pilih jumlah produk yang ingin ditambahkan.');
+    }
+}
+// Menampilkan produk saat halaman dimuat
         displayProducts();
     </script>
 </body>
